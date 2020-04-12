@@ -2,7 +2,32 @@ const fs = require('fs');
 const http = require('http');
 const path = require('path');
 
-const dirPath = __dirname + '/src/';
+const baseDirPath = __dirname + '/src/';
+
+const folder = {
+  html: 'html/',
+  css: 'css/',
+  js: 'js/',
+  png: 'images/',
+  jpg: 'images/',
+  jpeg: 'images/',
+  ico: 'images/',
+  webp: 'images/'
+};
+
+const mime = {
+  txt: 'text/plain',
+  html: 'text/html',
+  css: 'text/css',
+  js: 'text/javascript',
+  gif: 'image/gif',
+  jpg: 'image/jpeg',
+  jpeg: 'image/jpeg',
+  png: 'image/png',
+  svg: 'image/svg+xml',
+  ico: 'image/x-icon',
+  webp: 'image/webp'
+};
 
 const server = http.createServer((req, res) => {
   console.log('url:', req.url);
@@ -10,56 +35,31 @@ const server = http.createServer((req, res) => {
   console.log('basename:', path.basename(req.url));
   console.log('extname:', path.extname(req.url));
 
-  console.log('------------------------');
-
   if (req.url === '/') {
     console.log('home');
 
-    fs.readFile(dirPath + 'html/home.html', (err, data) => {
-      res.writeHead(200, { 'Content-Type': 'text/html' });
+    fs.readFile(baseDirPath + 'html/home.html', (err, data) => {
+      res.writeHead(200, { 'Content-Type': mime.html });
       res.write(data);
       res.end();
     });
   } else {
-    var basename = null;
     const extname = path.extname(req.url);
+    const basename = path.basename(req.url);
 
-    switch (extname) {
-      case '.html':
-        basename = path.basename(req.url);
+    const fileType = extname.slice(1);
 
-        fs.readFile(dirPath + 'html/' + basename, (err, data) => {
-          res.writeHead(200, { 'Content-Type': 'text/html' });
-          res.write(data);
-          res.end();
+    console.log('fileType:', fileType);
+    console.log('path:', baseDirPath + folder[fileType] + basename);
 
-          basename = null;
-        });
-        break;
-      case '.css':
-        basename = path.basename(req.url);
-
-        fs.readFile(dirPath + 'css/' + basename, (err, data) => {
-          res.writeHead(200, { 'Content-Type': 'text/css' });
-          res.write(data);
-          res.end();
-
-          basename = null;
-        });
-        break;
-      case '.js':
-        basename = path.basename(req.url);
-
-        fs.readFile(dirPath + 'js/' + basename, (err, data) => {
-          res.writeHead(200, { 'Content-Type': 'text/css' });
-          res.write(data);
-          res.end();
-
-          basename = null;
-        });
-        break;
-    }
+    fs.readFile(baseDirPath + folder[fileType] + basename, (err, data) => {
+      res.writeHead(200, { 'Content-Type': mime[fileType] });
+      res.write(data);
+      res.end();
+    });
   }
+
+  console.log('------------------------');
 });
 
 server.listen(8000);
