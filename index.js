@@ -1,4 +1,5 @@
 const fs = require('fs');
+const url = require('url');
 const http = require('http');
 const path = require('path');
 
@@ -31,9 +32,14 @@ const mime = {
 
 const server = http.createServer((req, res) => {
   console.log('url:', req.url);
-  console.log('dirname:', path.dirname(req.url));
-  console.log('basename:', path.basename(req.url));
-  console.log('extname:', path.extname(req.url));
+
+  const link = url.parse(req.url);
+
+  console.log('pathname:', link.pathname);
+
+  console.log('dirname:', path.dirname(link.pathname));
+  console.log('basename:', path.basename(link.pathname));
+  console.log('extname:', path.extname(link.pathname));
 
   if (req.url === '/') {
     console.log('home');
