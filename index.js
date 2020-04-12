@@ -33,13 +33,12 @@ const mime = {
 const server = http.createServer((req, res) => {
   console.log('url:', req.url);
 
-  const link = url.parse(req.url);
+  const reqUrl = url.parse(req.url);
 
-  console.log('pathname:', link.pathname);
-
-  console.log('dirname:', path.dirname(link.pathname));
-  console.log('basename:', path.basename(link.pathname));
-  console.log('extname:', path.extname(link.pathname));
+  console.log('pathname:', reqUrl.pathname);
+  console.log('dirname:', path.dirname(reqUrl.pathname));
+  console.log('basename:', path.basename(reqUrl.pathname));
+  console.log('extname:', path.extname(reqUrl.pathname));
 
   if (req.url === '/') {
     console.log('home');
@@ -50,8 +49,8 @@ const server = http.createServer((req, res) => {
       res.end();
     });
   } else {
-    const extname = path.extname(req.url);
-    const basename = path.basename(req.url);
+    const extname = path.extname(reqUrl.pathname);
+    const basename = path.basename(reqUrl.pathname);
 
     const fileType = extname.slice(1);
 
