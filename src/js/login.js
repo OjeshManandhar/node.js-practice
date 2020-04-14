@@ -5,12 +5,13 @@ function verifyLogin() {
   const password = document.querySelector('#password').value;
 
   if (
-    (username === 'tom' && password === 'jerry') ||
-    (username === 'jerry' && password === 'tom')
+    username.length > 0 &&
+    username.length <= 10 &&
+    password.length > 0 &&
+    password.length <= 10
   ) {
-    console.log('Login Sucess');
-    window.location.href = `./profile.html?username=${username}`;
+    return true;
   } else {
-    console.log('Login Failed');
+    return false;
   }
 }
