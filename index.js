@@ -48,20 +48,47 @@ const server = http.createServer((req, res) => {
       res.write(data);
       res.end();
     });
+  } else if (reqUrl.pathname.indexOf('/api') === 0) {
+    const apiEndpoint = reqUrl.pathname.replace('/api', '');
+
+    console.log('apiEndpoint:', apiEndpoint);
+
+    if (apiEndpoint === '/login') {
+      const urlParams = new URLSearchParams(reqUrl.query);
+
+      if (urlParams.has('username') && urlParams.has('password')) {
+        const username = urlParams.get('username');
+        const password = urlParams.get('password');
+
+        if (username === 'tom' && password === 'jerry') {
+          console.log('tom');
+          res.writeHead(302, { Location: '/profile.html?username=tom' });
+          res.end();
+        } else if (username === 'jerry' && password === 'tom') {
+          console.log('jerry');
+          res.writeHead(302, { Location: '/profile.html?username=jerry' });
+          res.end();
+        } else {
+          console.log('error login');
+          res.writeHead(302, { Location: '/login.html' });
+          res.end();
+        }
+      }
+    }
   } else {
     const extname = path.extname(reqUrl.pathname);
     const basename = path.basename(reqUrl.pathname);
 
     const fileType = extname.slice(1);
 
-    console.log('fileType:', fileType);
-    console.log('path:', baseDirPath + folder[fileType] + basename);
-
-    fs.readFile(baseDirPath + folder[fileType] + basename, (err, data) => {
-      res.writeHead(200, { 'Content-Type': mime[fileType] });
-      res.write(data);
-      res.end();
-    });
+    fs.readFile(
+      path.normalize(baseDirPath + folder[fileType] + basename),
+      (err, data) => {
+        res.writeHead(200, { 'Content-Type': mime[fileType] });
+        res.write(data);
+        res.end();
+      }
+    );
   }
 
   console.log('------------------------');
