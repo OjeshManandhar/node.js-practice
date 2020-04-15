@@ -2,7 +2,7 @@
 Practicing Node.js. Just coding a very basic server using Node.js
 
 ## Attribution/Links to images
-- [Favicon](src/images/favicon.ico): Icons made by [Flat Icons](https://www.flaticon.com/authors/flat-icons) [www.flaticon.com](https://www.flaticon.com/)
+- [Favicon](src/images/favicon.ico): Icons made by [Flat Icons](https://www.flaticon.com/authors/flat-icons) from [www.flaticon.com](https://www.flaticon.com/)
 - [Home background](src/images/home-bg.jpg): [Link](https://www.pexels.com/photo/close-up-of-wooden-plank-326311/)
 - [Tom Background](src/images/right-img.png): Link is in the image
 - [Jerry background](src/images/left-img.png): Link is in the image
